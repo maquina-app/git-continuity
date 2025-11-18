@@ -11,6 +11,7 @@ Git Continuity lets you export your staged and unstaged changes as a patch, tran
 ## ✨ Features
 
 - **Beautiful Previews** - See exactly what you're exporting/importing with [Glow](https://github.com/charmbracelet/glow) and [Bat](https://github.com/sharkdp/bat)
+- **Scrollable Previews** - Navigate through long diffs with full keyboard control
 - **Interactive TUI** - Gorgeous terminal interface powered by [Gum](https://github.com/charmbracelet/gum)
 - **Built-in SCP Transfer** - Automatically transfer patches to remote hosts
 - **Saved Hosts** - Configure once, sync forever
@@ -289,6 +290,75 @@ Before applying a patch, see:
 - Optional full diff review
 - Untracked files list
 
+### Scrollable Previews for Long Diffs
+
+Git Continuity automatically detects when previews are too long for your terminal and enables **scrollable pager mode** with full navigation support.
+
+When viewing a long diff, you'll see:
+
+```
+Long diff detected - entering scrollable view (press 'q' to exit)
+```
+
+#### ⌨Navigation Keys
+
+**Basic Navigation:**
+
+```
+Space / f     : Scroll down one page
+b             : Scroll up one page
+↓ / ↑         : Scroll line by line
+d / u         : Scroll half-page down/up
+g / G         : Jump to beginning/end
+```
+
+**Search & Find:**
+
+```
+/pattern      : Search forward for pattern
+?pattern      : Search backward for pattern
+n             : Jump to next search result
+N             : Jump to previous search result
+```
+
+**Exit:**
+
+```
+q             : Quit preview and continue
+```
+
+#### Search Examples
+
+While viewing a preview, you can search for:
+
+bash
+
+```bash
+/api_key      # Find API keys or secrets
+/TODO         # Find TODO comments
+/password     # Check for hardcoded passwords
+/^diff --git  # Jump between different files
+/FIXME        # Find FIXME comments
+```
+
+**Example workflow:**
+
+bash
+
+```bash
+$ git-continuity export
+
+# Preview appears with 500 lines of changes
+📜 Long diff detected - entering scrollable view (press 'q' to exit)
+
+# Press '/' to search
+/api_key
+
+# Found on line 127
+# Press 'n' to find next occurrence
+# Press 'q' when done reviewing
+```
+
 ### Preview Tools
 - **Glow** (preferred): Beautiful markdown-style formatted diffs
 - **Bat** (fallback): Syntax-highlighted with line numbers
@@ -350,7 +420,7 @@ ssh-copy-id user@hostname
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details
+MIT License - see [LICENSE](LICENSE.txt) file for details
 
 ## Acknowledgments
 
